@@ -3,17 +3,16 @@
   a) En komplicerad String som går till molnet
   b) En lätt String som går till den lokala databasen
 
-- Två Collections:
-  a) Customer
+- Två Collections:  
+  a) Customer  
   b) Employee
-
 - Maven imports eller .jar-filen
 
 ### Klasser för att koppla sig till MongoDB:
-- MongoConnector - klass som kan:
-  a) Koppla sig till databasen i molnet
-  b) Koppla sig till den lokala databasen
-  c) Om a inte funkar -> connecta till b
+- MongoConnector - klass som kan:  
+  a) Koppla sig till databasen i molnet  
+  b) Koppla sig till den lokala databasen  
+  c) Om a inte funkar -> connecta till b  
 - KeyReader som länkar till platsen där du har din adress till molnet
 
 ### Klasser för att hantera objekt som skickas till MongoDB:
