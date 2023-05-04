@@ -3,8 +3,6 @@ import java.util.Properties;
 
 public class MongoConnectionStringReader {
     Properties prop;
-
-
     public MongoConnectionStringReader(String currentFile) {
         prop = new Properties();
         String userHome = System.getProperty("user.home");
