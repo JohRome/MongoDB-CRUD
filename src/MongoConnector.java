@@ -17,9 +17,9 @@ public class MongoConnector {
         }
         return isConnected;
     }
-    public void addCollectionToDatabase() {
-        MongoDatabase db = client.getDatabase("JohansDatabase");
-        db.createCollection("Employees");
-        db.createCollection("Customers");
-    }
+//    public void addCollectionToDatabase() {
+//        MongoDatabase db = client.getDatabase("JohansDatabase");
+//        db.createCollection("Employees");
+//        db.createCollection("Customers");
+//    }
 }
