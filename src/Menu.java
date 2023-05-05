@@ -6,10 +6,12 @@ public class Menu {
         System.out.println("2. Read Menu");
         System.out.println("3. Update Menu");
         System.out.println("4. Delete Menu");
+        System.out.println("5. Exit program");
     }
     public static void showCreateMenu() {
         System.out.println("1. Add a new Costumer to your Mongo Database");
         System.out.println("2. Add a new Employee to your Mongo Database");
+        System.out.println("3. Go back to Main Menu");
     }
     public static void showReadMenu() {
 

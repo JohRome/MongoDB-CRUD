@@ -1,26 +1,11 @@
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.Updates;
-import com.mongodb.client.result.DeleteResult;
-import com.mongodb.client.result.InsertManyResult;
-import com.mongodb.client.result.InsertOneResult;
-import com.mongodb.client.result.UpdateResult;
-import org.bson.BsonValue;
-import org.bson.Document;
-import org.bson.conversions.Bson;
-import org.bson.types.ObjectId;
-
-import java.util.Arrays;
-import java.util.List;
-
-import static com.mongodb.client.model.Filters.gte;
-
 public class Main {
     public static void main(String[] args) {
 
-        var facade = new MongoDBFacade();
-        facade.addCustomerToDatabase();
+//        var facade = new MongoDBFacade();
+//        facade.addCustomerToDatabase();
+
+        var app = new Application();
+        app.startProgram();
 
 
 
