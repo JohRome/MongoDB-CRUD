@@ -1,9 +1,121 @@
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
+import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.InsertManyResult;
+import com.mongodb.client.result.InsertOneResult;
+import com.mongodb.client.result.UpdateResult;
+import org.bson.BsonValue;
+import org.bson.Document;
+import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static com.mongodb.client.model.Filters.gte;
+
 public class Main {
     public static void main(String[] args) {
 
         MongoConnector mongo = new MongoConnector();
         mongo.connectToLocalMongoDB();
-        mongo.addCollectionToDatabase();
+//        mongo.addCollectionToDatabase();
+
+
+
+
+        /** CRUD-syntax jag behöver för att lägga upp allt nödvändigt till databasen min */
+
+        /**CREATE*/
+        // Skapar en Mongo Databas
+        MongoDatabase database = mongo.client.getDatabase("johanDB");
+
+        // Skapar en Collection i våran databas
+        MongoCollection<Document> collection = database.getCollection("employees");
+
+        // Skapar ett Document med önskade fields
+        Document inspection = new Document("_id", new ObjectId())
+                .append("employee_id", "13")
+                .append("name", "Johan")
+                .append("age", 30)
+                .append("last_name", "AlOsachi");
+
+        Document name = new Document("_id", new ObjectId())
+                .append("employee_id", "37")
+                .append("name","Eiemi")
+                .append("age", 30)
+                .append("last_name", "Romeo");
+
+        //S kickar upp ett Documentet till önskat Collection
+        InsertOneResult result = collection.insertOne(inspection);
+        BsonValue id = result.getInsertedId();
+        System.out.println(id);
+
+        // Skickar upp många Documents i taget
+        List<Document> docs = Arrays.asList(inspection, name);
+        InsertManyResult res = collection.insertMany(docs);
+
+
+        /**READ*/
+        // Varje read ska specifiera ett filter så att man inte kan komma åt alla
+        // Annars kan minnet och skit överbelasta
+
+        collection.find(
+                Filters.and(gte("johanDB", "test"),
+                        Filters.eq("name", "Johan")))
+                .forEach(doc -> System.out.println(doc.toJson()));
+
+        /**UPDATE*/
+        // Väljer vilket filter vi vill söka på och på vem
+        Bson query = Filters.eq("name", "Eiemi");
+        // Uppdaterar önskat field till ett nytt värde
+        Bson update = Updates.set("last_name", "Sjöberg");
+        // Skickar uppdateringarna till collection
+        UpdateResult updateResult = collection.updateOne(query,update);
+
+
+        /**DELETE*/
+        // Filtrerar sökningen på name : Eiemi
+        Bson query = Filters.eq("name", "Eiemi");
+        // Och tar bort 1 Eiemi från collection
+        DeleteResult deleteResult = collection.deleteOne(query);
+        // Tar bort alla som matchar den filtrerade sökningen
+        DeleteResult deleteResultMany = collection.deleteMany(query);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
