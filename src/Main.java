@@ -19,28 +19,29 @@ import static com.mongodb.client.model.Filters.gte;
 public class Main {
     public static void main(String[] args) {
 
-        MongoConnector mongo = new MongoConnector();
-        mongo.connectToLocalMongoDB();
+        var facade = new MongoDBFacade();
+        facade.addCustomerToDatabase();
 
 
 
-        MongoDatabase database = mongo.client.getDatabase("johanDB");
+
+//        MongoDatabase database = mongo.client.getDatabase("johanDB");
 //        database.createCollection("Employees");
 //        database.createCollection("Customers");
-        MongoCollection<Document> collection = database.getCollection("Customers");
-        MongoCollection<Document> collection1 = database.getCollection("Employees");
-
-
-        var customer = new CustomerModel();
-        customer.setCustomerNumber("1234");
-        customer.setName("Hullis");
-        customer.setYear(1999);
-        customer.setAddress("Batmanvägen 1");
-        //var employee = new EmployeeModel("Eiemi", 30, "Österberga", "1999");
-
-        collection.insertOne(customer.toBSONDocument(customer));
-        //collection1.insertOne(employee.toBSONDocument(employee));
-
+//        MongoCollection<Document> collection = database.getCollection("Customers");
+//        MongoCollection<Document> collection1 = database.getCollection("Employees");
+//
+//
+//        var customer = new CustomerModel();
+//        customer.setCustomerNumber("1234");
+//        customer.setName("Hullis");
+//        customer.setYear(1999);
+//        customer.setAddress("Batmanvägen 1");
+//        //var employee = new EmployeeModel("Eiemi", 30, "Österberga", "1999");
+//
+//        collection.insertOne(customer.toBSONDocument(customer));
+//        collection1.insertOne(employee.toBSONDocument(employee));
+//
 //        Document doc1 = new Document("name", customer.getName())
 //                .append("year", customer.getYear())
 //                .append("address", customer.getAddress())
