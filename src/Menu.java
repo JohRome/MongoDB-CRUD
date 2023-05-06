@@ -16,7 +16,6 @@ public class Menu {
         System.out.println("2. Add a new Employee to your Mongo Database     |");
         System.out.println("3. Go back to Main Menu                          |");
         System.out.println("+------------------------------------------------+");
-
     }
     public static void showReadMenu() {
         System.out.println("+------------------------------------------------+");
@@ -25,8 +24,6 @@ public class Menu {
         System.out.println("3. Read all from your Mongo Database             |");
         System.out.println("4. Go back to Main Menu                          |");
         System.out.println("+------------------------------------------------+");
-
-
     }
     public static void showUpdateMenu() {
         System.out.println("+------------------------------------------------+");
@@ -34,8 +31,6 @@ public class Menu {
         System.out.println("2. Update an Employee in your Mongo Database     |");
         System.out.println("3. Go back to Main Menu                          |");
         System.out.println("+------------------------------------------------+");
-
-
     }
     public static void showDeleteMenu() {
         System.out.println("+------------------------------------------------+");
@@ -43,12 +38,10 @@ public class Menu {
         System.out.println("2. Delete an Employee from your Mongo Database   |");
         System.out.println("3. Go back to Main Menu                          |");
         System.out.println("+------------------------------------------------+");
-
     }
     public static int getUserChoise() {
         Scanner input = new Scanner(System.in);
         int choise = 0;
-
         try{
             System.out.print("Enter an option -> ");
             choise = input.nextInt();

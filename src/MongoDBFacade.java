@@ -5,25 +5,22 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.DeleteResult;
 import org.bson.Document;
 import org.bson.conversions.Bson;
-
 import java.util.Scanner;
-
 public class MongoDBFacade {
     private CustomerModel customer;
     private EmployeeModel employee;
     private MongoConnector mongo;
     private MongoDatabase database;
-
-    public MongoDBFacade() {
-        this.mongo = new MongoConnector();
-        mongo.connectToLocalMongoDB();
-        this.database = mongo.client.getDatabase("johanDB");
-//        database.createCollection("Employees");
-//        database.createCollection("Customers");
+public MongoDBFacade() {
+    this.mongo = new MongoConnector();
+    mongo.connectToLocalMongoDB();
+    if (mongo.client != null) {
+        this.database = mongo.client.getDatabase("myDatabase");
+        database.createCollection("Employees");
+        database.createCollection("Customers");
     }
-
-
-    public CustomerModel createCustomer() {
+}
+public CustomerModel createCustomer() {
         Scanner input = new Scanner(System.in);
         var customer = new CustomerModel();
         System.out.println("Enter customer number: ");
@@ -40,9 +37,7 @@ public class MongoDBFacade {
         customer.setAddress(input.nextLine());
 
         return customer;
-
     }
-
     public EmployeeModel createEmployee() {
         Scanner input = new Scanner(System.in);
         var employee = new EmployeeModel();
@@ -67,13 +62,11 @@ public class MongoDBFacade {
         MongoCollection<Document> collection = database.getCollection("Customers");
         collection.insertOne(customer.toBSONDocument(customer));
     }
-
     public void addEmployeeToDatabase() {
         employee = createEmployee();
         MongoCollection<Document> collection = database.getCollection("Employees");
         collection.insertOne(employee.toBSONDocument(employee));
     }
-
     public boolean readAllCustomers() {
         MongoCollection<Document> customersCollection = database.getCollection("Customers");
         FindIterable<Document> customers = customersCollection.find();
@@ -85,10 +78,8 @@ public class MongoDBFacade {
         for (Document customer : customers) {
             System.out.println(customer.toJson());
         }
-
         return true;
     }
-
     public boolean readAllEmployees() {
         MongoCollection<Document> employeeCollection = database.getCollection("Employees");
         FindIterable<Document> employees = employeeCollection.find();
@@ -100,7 +91,6 @@ public class MongoDBFacade {
         for (Document employee : employees) {
             System.out.println(employee.toJson());
         }
-
         return true;
     }
     public boolean readAll() {
@@ -120,10 +110,8 @@ public class MongoDBFacade {
         for (Document employee : employees) {
             System.out.println(employee.toJson());
         }
-
         return true;
     }
-
     public void updateCustomer() {
         if (!readAllCustomers()) {
             System.out.println("There are no customers in the collection.");
@@ -187,7 +175,6 @@ public class MongoDBFacade {
             employeeCollection.updateOne(filter, update);
         }
     }
-
     public void deleteCustomer() {
         if (!readAllCustomers()) {
             System.out.println("There are no customers in the collection.");
@@ -200,7 +187,6 @@ public class MongoDBFacade {
             DeleteResult result = database.getCollection("Customers").deleteOne(query);
         }
     }
-
     public void deleteEmployee() {
         if (!readAllEmployees()) {
             System.out.println("There are no employees in the collection.");

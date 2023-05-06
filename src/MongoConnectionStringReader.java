@@ -14,7 +14,6 @@ public class MongoConnectionStringReader {
             return;
         }
     }
-
     public String getMongoConnString() {
         return prop.getProperty("ConnString");
     }
