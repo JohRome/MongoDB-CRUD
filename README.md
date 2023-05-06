@@ -1,8 +1,13 @@
-
-Året är 1350 i Europa och Digerdöden härjar vilt och fritt. Människa har förvandlats till best, adelsmän är lika värda som pöblarna som vandrar på gatan utan hem och kläder.
-Nöden har ingen lag och även kungar får känna på Digerdödens kalla hand och förädelse, inte minst Ralabas den Grymme, som har börjat ana oro i slottet sitt. Han har precis fått veta att hans kunder och anställda stjäl ur slottets skafferi, som nu töms allt snabbare och snabbare i dessa dystra tider.
-Ralabas den Grymme har gett mig, Johan av den III Romeo, i uppgift att hålla koll på vilka kunder och anställda han har. På så sätt kan han förhöra dem alla och för de som har stulit... Ja, det vågar jag inte yttra mig om.
-Jag tog mig an uppgiften och det här blev resultatet . . .
-
-
-
+## MongoDBFacade methods();
++ public MongoDBFacade() -> instansiate a new object of MongoConnector and tries to connect to your localhost. If you don't already have a database and collection, the constructor will create them for you.
++ public CustomerModel createCustomer() -> creating a new customer object with user inputs
++ public EmployeeModel createEmployee() -> creating a new employee objcet with user inputs
++ public void addCustomerToDatabase() -> adding a created customer to the database
++ public void addEmployeeToDatabase() -> adding a created employee to the database
++ public boolean readAllCustomers() -> if there are customers: then read all customers from the database or tell there are none
++ public boolean readAllEmployees() -> if there are emmployees: then read all employees from the database or tell there are none
++ public boolean readAll() -> if there are either custommers or employees: read all customers and employees from the database or tell there are none
++ public void updateCustomer() -> updating a customer in the database and set new values with user inputs
++ public void updateEmployee() -> updating an employee in the database and set new values with user inputs
++ public void deleteCustomer() -> deleting a customer from the database 
++ public void deleteEmployee() -> deleting an employee from the database
