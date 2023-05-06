@@ -1,5 +1,5 @@
 ## MongoDBFacade methods();
-+ public MongoDBFacade() -> instansiate a new object of MongoConnector and tries to connect to your localhost. If you don't already have a database and collection, the constructor will create them for you.
++ public MongoDBFacade() -> instantiate a new object of MongoConnector and tries to connect to your localhost. If you don't already have a database and collection, the constructor will create them for you.
 + public CustomerModel createCustomer() -> creating a new customer object with user inputs
 + public EmployeeModel createEmployee() -> creating a new employee objcet with user inputs
 + public void addCustomerToDatabase() -> adding a created customer to the database
