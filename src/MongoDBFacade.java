@@ -1,3 +1,4 @@
+import com.mongodb.MongoCommandException;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -15,9 +16,13 @@ public MongoDBFacade() {
     this.mongo = new MongoConnector();
     mongo.connectToLocalMongoDB();
     if (mongo.client != null) {
-        this.database = mongo.client.getDatabase("myDatabase");
-        database.createCollection("Employees");
-        database.createCollection("Customers");
+        try {
+            this.database = mongo.client.getDatabase("myDatabase");
+            database.createCollection("Employees");
+            database.createCollection("Customers");
+        } catch (MongoCommandException e) {
+            System.out.println("Collections already exist.");
+        }
     }
 }
 public CustomerModel createCustomer() {
@@ -114,12 +119,12 @@ public CustomerModel createCustomer() {
     }
     public void updateCustomer() {
         if (!readAllCustomers()) {
-            System.out.println("There are no customers in the collection.");
+//            System.out.println("There are no customers in the collection.");
             return;
         } else {
             Scanner input = new Scanner(System.in);
-            System.out.println("Enter customer number to update: ");
-            String customerNumber = input.nextLine();
+            System.out.println("Enter customer name to update: ");
+            String customerName = input.nextLine();
 
             System.out.println("Enter new customer number: ");
             String newCustomerNumber = input.nextLine();
@@ -135,7 +140,7 @@ public CustomerModel createCustomer() {
             String newCustomerAddress = input.nextLine();
 
             MongoCollection<Document> customersCollection = database.getCollection("Customers");
-            Bson filter = Filters.eq("customerNumber", customerNumber);
+            Bson filter = Filters.eq("name", customerName);
             Bson update = new Document("$set", new Document("customerNumber", newCustomerNumber)
                     .append("name", newCustomerName)
                     .append("year", newCustomerAge)
@@ -146,12 +151,12 @@ public CustomerModel createCustomer() {
 
     public void updateEmployee() { // hjälp från chatgpt
         if (!readAllEmployees()) {
-            System.out.println("There are no employees in the collection.");
+//            System.out.println("There are no employees in the collection.");
             return;
         } else {
             Scanner input = new Scanner(System.in);
-            System.out.println("Enter employee number to update: ");
-            String employeeNumber = input.nextLine();
+            System.out.println("Enter employee name to update: ");
+            String employeeName = input.nextLine();;
 
             System.out.println("Enter new employee number: ");
             String newEmployeeNumber = input.nextLine();
@@ -167,7 +172,7 @@ public CustomerModel createCustomer() {
             String newEmployeeAddress = input.nextLine();
 
             MongoCollection<Document> employeeCollection = database.getCollection("Employees");
-            Bson filter = Filters.eq("employeeNumber", employeeNumber);
+            Bson filter = Filters.eq("name", employeeName);
             Bson update = new Document("$set", new Document("employeeNumber", newEmployeeNumber)
                     .append("name", newEmployeeName)
                     .append("year", newEmployeeAge)
@@ -177,7 +182,7 @@ public CustomerModel createCustomer() {
     }
     public void deleteCustomer() {
         if (!readAllCustomers()) {
-            System.out.println("There are no customers in the collection.");
+//            System.out.println("There are no customers in the collection.");
             return;
         } else {
             Scanner input = new Scanner(System.in);
@@ -189,7 +194,7 @@ public CustomerModel createCustomer() {
     }
     public void deleteEmployee() {
         if (!readAllEmployees()) {
-            System.out.println("There are no employees in the collection.");
+//            System.out.println("There are no employees in the collection.");
             return;
         } else {
             Scanner input = new Scanner(System.in);
