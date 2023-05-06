@@ -2,6 +2,7 @@ public class Application {
     private MongoDBFacade mongoDBFacade;
     private int choice;
 
+
     public Application() {
         mongoDBFacade = new MongoDBFacade();
     }

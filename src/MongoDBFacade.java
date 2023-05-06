@@ -1,3 +1,4 @@
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
@@ -22,8 +23,6 @@ public class MongoDBFacade {
     }
 
 
-
-
     public CustomerModel createCustomer() {
         Scanner input = new Scanner(System.in);
         var customer = new CustomerModel();
@@ -43,6 +42,7 @@ public class MongoDBFacade {
         return customer;
 
     }
+
     public EmployeeModel createEmployee() {
         Scanner input = new Scanner(System.in);
         var employee = new EmployeeModel();
@@ -67,96 +67,150 @@ public class MongoDBFacade {
         MongoCollection<Document> collection = database.getCollection("Customers");
         collection.insertOne(customer.toBSONDocument(customer));
     }
+
     public void addEmployeeToDatabase() {
         employee = createEmployee();
         MongoCollection<Document> collection = database.getCollection("Employees");
         collection.insertOne(employee.toBSONDocument(employee));
     }
 
-    public void readAllCustomers() {
+    public boolean readAllCustomers() {
         MongoCollection<Document> customersCollection = database.getCollection("Customers");
-        customersCollection.find().forEach(document -> System.out.println(document.toJson()));
+        FindIterable<Document> customers = customersCollection.find();
+
+        if (!customers.iterator().hasNext()) {
+            System.out.println("You have no customers in your database.");
+            return false;
+        }
+        for (Document customer : customers) {
+            System.out.println(customer.toJson());
+        }
+
+        return true;
     }
-    public void readAllEmployees() {
+
+    public boolean readAllEmployees() {
         MongoCollection<Document> employeeCollection = database.getCollection("Employees");
-        employeeCollection.find().forEach(document -> System.out.println(document.toJson()));
+        FindIterable<Document> employees = employeeCollection.find();
+
+        if (!employees.iterator().hasNext()) {
+            System.out.println("You have no employees in your database.");
+            return false;
+        }
+        for (Document employee : employees) {
+            System.out.println(employee.toJson());
+        }
+
+        return true;
     }
-    public void readAll() {
+    public boolean readAll() {
         MongoCollection<Document> customersCollection = database.getCollection("Customers");
         MongoCollection<Document> employeeCollection = database.getCollection("Employees");
 
-        customersCollection.find().forEach(document -> System.out.println(document.toJson()));
-        employeeCollection.find().forEach(document -> System.out.println(document.toJson()));
+        FindIterable<Document> customers = customersCollection.find();
+        FindIterable<Document> employees = employeeCollection.find();
+
+        if (!customers.iterator().hasNext() && !employees.iterator().hasNext()) {
+            System.out.println("You have no customers or employees in your database.");
+            return false;
+        }
+        for (Document customer : customers) {
+            System.out.println(customer.toJson());
+        }
+        for (Document employee : employees) {
+            System.out.println(employee.toJson());
+        }
+
+        return true;
     }
 
-    public void updateCustomer() { // hjälp från chatgpt
-        readAllCustomers();
-        Scanner input = new Scanner(System.in);
-        System.out.println("Enter customer number to update: ");
-        String customerNumber = input.nextLine();
+    public void updateCustomer() {
+        if (!readAllCustomers()) {
+            System.out.println("There are no customers in the collection.");
+            return;
+        } else {
+            Scanner input = new Scanner(System.in);
+            System.out.println("Enter customer number to update: ");
+            String customerNumber = input.nextLine();
 
-        System.out.println("Enter new customer number: ");
-        String newCustomerNumber = input.nextLine();
+            System.out.println("Enter new customer number: ");
+            String newCustomerNumber = input.nextLine();
 
-        System.out.println("Enter new customer name: ");
-        String newCustomerName = input.nextLine();
+            System.out.println("Enter new customer name: ");
+            String newCustomerName = input.nextLine();
 
-        System.out.println("Enter new customer age: ");
-        int newCustomerAge = input.nextInt();
-        input.nextLine();
+            System.out.println("Enter new customer age: ");
+            int newCustomerAge = input.nextInt();
+            input.nextLine();
 
-        System.out.println("Enter new customer address: ");
-        String newCustomerAddress = input.nextLine();
+            System.out.println("Enter new customer address: ");
+            String newCustomerAddress = input.nextLine();
 
-        MongoCollection<Document> customersCollection = database.getCollection("Customers");
-        Bson filter = Filters.eq("customerNumber", customerNumber);
-        Bson update = new Document("$set", new Document("customerNumber", newCustomerNumber)
-                .append("name", newCustomerName)
-                .append("year", newCustomerAge)
-                .append("address", newCustomerAddress));
-        customersCollection.updateOne(filter, update);
+            MongoCollection<Document> customersCollection = database.getCollection("Customers");
+            Bson filter = Filters.eq("customerNumber", customerNumber);
+            Bson update = new Document("$set", new Document("customerNumber", newCustomerNumber)
+                    .append("name", newCustomerName)
+                    .append("year", newCustomerAge)
+                    .append("address", newCustomerAddress));
+            customersCollection.updateOne(filter, update);
+        }
     }
+
     public void updateEmployee() { // hjälp från chatgpt
-        readAllEmployees();
-        Scanner input = new Scanner(System.in);
-        System.out.println("Enter employee number to update: ");
-        String employeeNumber = input.nextLine();
+        if (!readAllEmployees()) {
+            System.out.println("There are no employees in the collection.");
+            return;
+        } else {
+            Scanner input = new Scanner(System.in);
+            System.out.println("Enter employee number to update: ");
+            String employeeNumber = input.nextLine();
 
-        System.out.println("Enter new employee number: ");
-        String newEmployeeNumber = input.nextLine();
+            System.out.println("Enter new employee number: ");
+            String newEmployeeNumber = input.nextLine();
 
-        System.out.println("Enter new employee name: ");
-        String newEmployeeName = input.nextLine();
+            System.out.println("Enter new employee name: ");
+            String newEmployeeName = input.nextLine();
 
-        System.out.println("Enter new employee age: ");
-        int newEmployeeAge = input.nextInt();
-        input.nextLine();
+            System.out.println("Enter new employee age: ");
+            int newEmployeeAge = input.nextInt();
+            input.nextLine();
 
-        System.out.println("Enter new employee address: ");
-        String newEmployeeAddress = input.nextLine();
+            System.out.println("Enter new employee address: ");
+            String newEmployeeAddress = input.nextLine();
 
-        MongoCollection<Document> employeeCollection = database.getCollection("Employees");
-        Bson filter = Filters.eq("employeeNumber", employeeNumber);
-        Bson update = new Document("$set", new Document("employeeNumber", newEmployeeNumber)
-                .append("name", newEmployeeName)
-                .append("year", newEmployeeAge)
-                .append("address", newEmployeeAddress));
-        employeeCollection.updateOne(filter, update);
+            MongoCollection<Document> employeeCollection = database.getCollection("Employees");
+            Bson filter = Filters.eq("employeeNumber", employeeNumber);
+            Bson update = new Document("$set", new Document("employeeNumber", newEmployeeNumber)
+                    .append("name", newEmployeeName)
+                    .append("year", newEmployeeAge)
+                    .append("address", newEmployeeAddress));
+            employeeCollection.updateOne(filter, update);
+        }
     }
+
     public void deleteCustomer() {
-        readAllCustomers();
-        Scanner input = new Scanner(System.in);
-        System.out.println("Enter customer name to delete: ");
-        String customerName = input.nextLine();
-        Bson query = Filters.eq("name", customerName);
-        DeleteResult result = database.getCollection("Customers").deleteOne(query);
+        if (!readAllCustomers()) {
+            System.out.println("There are no customers in the collection.");
+            return;
+        } else {
+            Scanner input = new Scanner(System.in);
+            System.out.println("Enter customer name to delete: ");
+            String customerName = input.nextLine();
+            Bson query = Filters.eq("name", customerName);
+            DeleteResult result = database.getCollection("Customers").deleteOne(query);
+        }
     }
+
     public void deleteEmployee() {
-        readAllEmployees();
-        Scanner input = new Scanner(System.in);
-        System.out.println("Enter employee name to delete: ");
-        String employeeName = input.nextLine();
-        Bson query = Filters.eq("name", employeeName);
-        DeleteResult result = database.getCollection("Employees").deleteOne(query);
+        if (!readAllEmployees()) {
+            System.out.println("There are no employees in the collection.");
+            return;
+        } else {
+            Scanner input = new Scanner(System.in);
+            System.out.println("Enter employee name to delete: ");
+            String employeeName = input.nextLine();
+            Bson query = Filters.eq("name", employeeName);
+            DeleteResult result = database.getCollection("Employees").deleteOne(query);
+        }
     }
 }
