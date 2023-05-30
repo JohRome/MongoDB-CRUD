@@ -1,3 +1,13 @@
+## Dependencies needed in order to run this program:
++ org.mongodb:bson:4.9.1 - download from Maven - https://mvnrepository.com/artifact/org.mongodb/bson/4.9.1
++ org.mongodb:mongodb-driver-sync:4.9.1 - download from Maven - https://mvnrepository.com/artifact/org.mongodb/mongodb-driver-sync/4.9.1
+
+## How to install the dependencies in IntelliJ
++ Open this project in IntelliJ and go to File -> Project Structure
++ Under "Project Settings" click on "Libraries"
++ Click on the "+"-sign and chose "From Maven..."
++ Copy-paste each dependency given above, choose the correct version and click "ok"
++ Go to the Main.java klass and either click on the green arrow or press Shift+F10 to run the program
 ## MongoDBFacade methods();
 + public MongoDBFacade() -> instantiate a new object of MongoConnector and tries to connect to your localhost. If you don't already have a database and collection, the constructor will create them for you.
 + public CustomerModel createCustomer() -> creating a new customer object with user inputs
